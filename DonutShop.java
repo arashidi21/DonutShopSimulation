@@ -1,6 +1,6 @@
 /*  Name: <Ali Rashidinejad>
  *  COSC 311  FA19
- *  hw0919
+ *  pp1008
  *  URL:  https://github.com/arashidi21/DonutShopSimulation
  */
 import java.util.LinkedList;
