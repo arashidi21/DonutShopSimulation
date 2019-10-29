@@ -17,7 +17,7 @@ public class DonutShop {
 		Customer inService[]=new Customer[servers];
 		int totalWait=0;
 		for(int i=0; i<20; i++) {
-			doTick(servers, inService, arrivals, serveMin);
+			doTick(inService, arrivals, serveMin);
 			int totalCustomers=getWorkingServers(inService)+customersCompleted+q.size();
 			System.out.println("Tick#"+i);
 			printTick(inService, totalWait, totalCustomers);
@@ -35,15 +35,15 @@ public class DonutShop {
 		else
 			System.out.printf("\t Wait time: 0, %5.2f, "+maxWait+"\n", (totalWait*1.0)/totalCustomers);
 	}
-	public void doTick(int servers, Customer[] serving, double arrivals, int serveMin) {
-		serviceAndRelease(servers, serving);
+	public void doTick(Customer[] serving, double arrivals, int serveMin) {
+		serviceAndRelease(serving);
 		waitIncremented();
 		newArrivals(arrivals, serveMin);
-		idleToWorking(servers, serving);
+		idleToWorking(serving);
 	}
 	//Decrements service time and if finished will remove Customer from service
-	public void serviceAndRelease(int servers, Customer[] serving) {
-		for(int j=0; j<servers; j++) {
+	public void serviceAndRelease(Customer[] serving) {
+		for(int j=0; j<serving.length; j++) {
 			if (serving[j] != null) {
 				serving[j].serviceTime--;
 				if (serving[j].serviceTime == 0) {
@@ -68,8 +68,8 @@ public class DonutShop {
 		}
 	}
 	//All idle workers dequeue head of queue and begin working
-	public void idleToWorking(int servers, Customer[] serving) {
-		for(int i=0; i<servers; i++) {
+	public void idleToWorking(Customer[] serving) {
+		for(int i=0; i<serving.length; i++) {
 			if(serving[i] ==null && !q.isEmpty()) {
 				serving[i]=q.remove();
 			}
@@ -104,6 +104,6 @@ public class DonutShop {
 	
 	public static void main(String [] args) {
 		DonutShop ds=new DonutShop();
-		ds.Experiment(6, 12, 2);
+		ds.Experiment(8, 12, 2);
 	}
 }
